@@ -10,12 +10,15 @@ jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3  # Updated to v3 which uses Node.js 16
+    - uses: actions/checkout@v3
+      with:
+        node-version: '20'
 
     - name: Set up Python
-      uses: actions/setup-python@v4  # Updated to v4 which uses Node.js 16
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.x
+        python-version: '3.x'
+        node-version: '20'
 
     - name: Decode and write GCP credentials
       run: |
@@ -23,7 +26,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install yfinance gspread oauth2client
+        pip install --upgrade yfinance gspread oauth2client
 
     - name: Run stock alert script
       env:
