@@ -10,12 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
+
+    - name: Decode and write GCP credentials
+      run: |
+        echo ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }} | base64 --decode > $HOME/gcp-key.json
+
     - name: Install dependencies
       run: |
         pip install yfinance gspread oauth2client
+
     - name: Run stock alert script
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcp-key.json
       run: python your_script.py
